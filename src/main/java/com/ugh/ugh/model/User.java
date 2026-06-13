@@ -1,0 +1,64 @@
+package com.ugh.ugh.model;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
+@Table(name = "UserTable")
+@Entity
+public class User {
+
+	@Setter(value = AccessLevel.NONE)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "UserId")
+	private long userId;
+	
+	@NotNull
+	@NotEmpty
+	@Column(name = "Username")
+	private String username;
+	
+	@NotNull
+	@NotEmpty
+	@Column(name = "Password")
+	private String password;
+	
+	@NotNull
+	@NotEmpty
+	@Column(name = "Email")
+	private String email;
+	
+	@OneToMany(mappedBy = "user")
+	@ToString.Exclude
+	private Collection<Review> reviews = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "user")
+	@ToString.Exclude
+	private Collection<UserGame> userGames = new ArrayList<>();
+	
+	public User(String username, String password, String email) {
+		setUsername(username);
+		setPassword(password);
+		setEmail(email);
+	}
+	
+}
