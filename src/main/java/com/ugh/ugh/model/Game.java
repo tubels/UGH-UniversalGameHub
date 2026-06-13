@@ -47,7 +47,6 @@ public class Game {
 	private String title;
 	
 	@NotNull
-	@NotEmpty
 	@Min(0)
 	@Max(1234)
 	@Column(name = "Price")
