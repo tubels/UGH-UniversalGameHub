@@ -58,5 +58,4 @@ public class Review {
 		setUser(user);
 		setGame(game);
 	}
-	
 }

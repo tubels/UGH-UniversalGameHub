@@ -60,5 +60,4 @@ public class User {
 		setPassword(password);
 		setEmail(email);
 	}
-	
 }

@@ -44,6 +44,4 @@ public class Publisher {
 	public Publisher(String name) {
 		setName(name);
 	}
-	
-	
 }
