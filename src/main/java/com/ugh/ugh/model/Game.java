@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -69,15 +71,18 @@ public class Game {
 	@JoinColumn(name = "PublisherId")
 	private Publisher publisher;
 	
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "GameGenreTable", joinColumns = @JoinColumn(name = "GameId"), inverseJoinColumns = @JoinColumn(name = "GenreId"))
 	@ToString.Exclude
 	private Collection<Genre> genres = new ArrayList<>();
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "game")
 	@ToString.Exclude
 	private Collection<Review> reviews = new ArrayList<>(); 
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "game")
 	@ToString.Exclude
 	private Collection<UserGame> userGames = new ArrayList<>();
