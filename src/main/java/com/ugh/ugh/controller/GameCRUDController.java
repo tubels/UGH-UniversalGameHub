@@ -1,29 +1,24 @@
 package com.ugh.ugh.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.ugh.ugh.model.Game;
 import com.ugh.ugh.service.IGameCRUDService;
 
 import jakarta.validation.Valid;
 
-@RestController
-@RequestMapping("/game/crud") // TODO: test this shit 
+@Controller
+@RequestMapping("/game/crud")
 public class GameCRUDController {
 
 	private final IGameCRUDService gameService;
@@ -33,114 +28,114 @@ public class GameCRUDController {
 	}
 
 	@GetMapping("/all") // localhost:8080/game/crud/all
-	public ResponseEntity<?> getControllerGetAllGames() {
+	public String getControllerGetAllGames(Model model) {
 
 		try {
 			ArrayList<Game> allGames = gameService.retrieveAll();
-			ResponseEntity<ArrayList<Game>> response = new ResponseEntity<ArrayList<Game>>(allGames, HttpStatus.OK);
-			return response;
+			model.addAttribute("package", allGames);
+			return ""; // TODO: add page to show all games
 
 		} catch (Exception e) {
-			ResponseEntity<String> response = new ResponseEntity<String>(e.getMessage(),
-					HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
+			model.addAttribute("package", e.getMessage());
+			return ""; // TODO: add error page
 		}
 	}
 
 	@GetMapping("/one") // localhost:8080/game/crud/one?id=1
-	public ResponseEntity<?> getControllerGetOneGameById(@RequestParam(name = "id") long id) {
+	public String getControllerGetOneGameById(@RequestParam(name = "id") long id, Model model) {
 		try {
 			Game gameFound = gameService.retrieveById(id);
-
-			ResponseEntity<Game> response = new ResponseEntity<Game>(gameFound, HttpStatus.OK);
-			return response;
-
+			model.addAttribute("package", gameFound);
+			return ""; // TODO: add page to show 1 game by id
 		} catch (Exception e) {
-			ResponseEntity<String> response = new ResponseEntity<String>(e.getMessage(),
-					HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
+			model.addAttribute("package", e.getMessage());
+			return ""; // TODO: add error page
 		}
 	}
 
 	@GetMapping("/all/{id}") // localhost:8080/game/crud/all/1
-	public ResponseEntity<?> getControllerGetOneGameById2(@PathVariable(name = "id") long id) {
+	public String getControllerGetOneGameById2(@PathVariable(name = "id") long id, Model model) {
 
 		try {
 			Game gameFound = gameService.retrieveById(id);
-
-			ResponseEntity<Game> response = new ResponseEntity<Game>(gameFound, HttpStatus.OK);
-			return response;
-
+			model.addAttribute("package", gameFound);
+			return ""; // TODO: add page to show 1 game by id
 		} catch (Exception e) {
-			ResponseEntity<String> response = new ResponseEntity<String>(e.getMessage(),
-					HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
+			model.addAttribute("package", e.getMessage());
+			return ""; // TODO: add error page
 		}
 	}
 
+	@GetMapping("/create") // localhost:8080/game/crud/create
+	public String getControllerCreateNewGame(Model model) {
+		model.addAttribute("game", new Game());
+		return "";// TODO: add create new game page
+	}
+
 	@PostMapping("/create")
-	public ResponseEntity<?> postControllerCreateNewGame(@RequestBody @Valid Game game, BindingResult result) {
+	public String postControllerCreateNewGame(@Valid Game game, BindingResult result, Model model) {
 
 		if (result.hasErrors()) {
-			ResponseEntity<List<ObjectError>> response = new ResponseEntity<>(result.getAllErrors(),
-					HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
+			return "create";
 		}
 
 		try {
 			gameService.create(game.getTitle(), game.getPrice(), game.getDescription(), game.getReleaseDate(),
 					game.getDeveloper(), game.getPublisher(), game.getGenres());
 
-			ArrayList<Game> allGames = gameService.retrieveAll();
-			ResponseEntity<ArrayList<Game>> response = new ResponseEntity<ArrayList<Game>>(allGames,
-					HttpStatus.OK);
-			return response;
+			return ""; // TODO: return created game?
 		} catch (Exception e) {
-			ResponseEntity<String> response = new ResponseEntity<String>(e.getMessage(),
-					HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
+			model.addAttribute("package", e.getMessage());
+			return ""; // TODO: add error page
 		}
 
 	}
 
-	@PutMapping("/update/{id}")
-	public ResponseEntity<?> postControllerUpdateGameById(@PathVariable(name = "id") long id,
-			@RequestBody @Valid Game game, BindingResult result) {
+	@GetMapping("/update/{id}") // localhost:8080/game/crud/update/1
+	public String getControllerUpdateGameById(@PathVariable(name = "id") long id, Model model) {
+		try {
+			Game gameToUpdate = gameService.retrieveById(id);
+			model.addAttribute("game", gameToUpdate);
+			return ""; // TODO: add update game page
+		} catch (Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return ""; // TODO: add error page
+		}
+	}
+
+	@PostMapping("/update/{id}")
+	public String postControllerUpdateGameById(@PathVariable(name = "id") long id, @Valid Game game,
+			BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			ResponseEntity<List<ObjectError>> response = new ResponseEntity<>(result.getAllErrors(),
-					HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
+			try {
+				return ""; // TODO: return to update page
+			} catch (Exception e) {
+				model.addAttribute("package", e.getMessage());
+				return ""; // TODO: add error page
+			}
 
 		}
 
 		try {
 			gameService.updateById(id, game.getTitle(), game.getPrice(), game.getDescription(),
-					game.getReleaseDate(),
-					game.getDeveloper(), game.getPublisher(), game.getGenres());
-			Game gameFromDB = gameService.retrieveById(id);
-			ResponseEntity<Game> response = new ResponseEntity<Game>(gameFromDB, HttpStatus.OK);
-
-			return response;
-
+					game.getReleaseDate(), game.getDeveloper(), game.getPublisher(), game.getGenres());
+			return ""; // TODO: something idk
 		} catch (Exception e) {
-			ResponseEntity<String> response = new ResponseEntity<String>(e.getMessage(),
-					HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
+			model.addAttribute("package", e.getMessage());
+			return ""; // TODO: add error page
 		}
 	}
 
-	@DeleteMapping("/delete/{id}") // localhost:8080/game/crud/delete/3
-	public ResponseEntity<?> getControllerDeleteGameById(@PathVariable(name = "id") long id) {
+	@GetMapping("/delete/{id}") // localhost:8080/game/crud/delete/3
+	public String getControllerDeleteGameById(@PathVariable(name = "id") long id, Model model) {
 		try {
 			gameService.deleteById(id);
-			ArrayList<Game> allGames = gameService.retrieveAll();
-			ResponseEntity<ArrayList<Game>> response = new ResponseEntity<ArrayList<Game>>(allGames, HttpStatus.OK);
-			return response;
+			model.addAttribute("package", gameService.retrieveAll());
+			return ""; // TODO: redirect somewhere
 
 		} catch (Exception e) {
-			ResponseEntity<String> response = new ResponseEntity<String>(e.getMessage(),
-					HttpStatus.INTERNAL_SERVER_ERROR);
-			return response;
+			model.addAttribute("package", e.getMessage());
+			return ""; // TODO: add error page
 		}
 
 	}
