@@ -3,12 +3,14 @@ package com.ugh.ugh.service.impl;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ugh.ugh.model.Publisher;
 import com.ugh.ugh.repo.IPublisherRepo;
 import com.ugh.ugh.service.IPublisherCRUDService;
 
-public class PublisherCRUDSerivceImpl implements IPublisherCRUDService {
+@Service
+public class PublisherCRUDServiceImpl implements IPublisherCRUDService {
 	
 	@Autowired
 	private IPublisherRepo pubRepo;
@@ -16,7 +18,7 @@ public class PublisherCRUDSerivceImpl implements IPublisherCRUDService {
 	@Override
 	public void create(String name) throws Exception {
 		if (name == null || name.isEmpty()) throw new Exception("The name cannot be empty");
-		if(pubRepo.existsByName(name)) throw new Exception("Publisher with this name already exists");
+		if (pubRepo.existsByName(name)) throw new Exception("Publisher with this name already exists");
 		Publisher newPub = new Publisher(name);
 		pubRepo.save(newPub);
 	}

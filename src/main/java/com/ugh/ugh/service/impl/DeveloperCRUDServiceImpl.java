@@ -3,11 +3,13 @@ package com.ugh.ugh.service.impl;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ugh.ugh.model.Developer;
 import com.ugh.ugh.repo.IDeveloperRepo;
 import com.ugh.ugh.service.IDeveloperCRUDService;
 
+@Service
 public class DeveloperCRUDServiceImpl implements IDeveloperCRUDService {
 
 	@Autowired

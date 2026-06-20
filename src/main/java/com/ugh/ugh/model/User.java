@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -39,11 +40,7 @@ public class User {
 	
 	@NotNull
 	@NotEmpty
-	@Column(name = "Password")
-	private String password;
-	
-	@NotNull
-	@NotEmpty
+	@Email
 	@Column(name = "Email")
 	private String email;
 	
@@ -55,9 +52,8 @@ public class User {
 	@ToString.Exclude
 	private Collection<UserGame> userGames = new ArrayList<>();
 	
-	public User(String username, String password, String email) {
+	public User(String username, String email) {
 		setUsername(username);
-		setPassword(password);
 		setEmail(email);
 	}
 }
