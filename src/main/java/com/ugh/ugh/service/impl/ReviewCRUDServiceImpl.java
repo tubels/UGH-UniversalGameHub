@@ -19,7 +19,7 @@ public class ReviewCRUDServiceImpl implements IReviewCRUDService {
 	
 	@Override
 	public void create(String title, int rating, String description, User user, Game game) throws Exception {
-		if (reviewRepo.existsByUserAngGame(user, game)) throw new Exception("You cannot make a new review on a game you've already reviewed");
+		if (reviewRepo.existsByUserAndGame(user, game)) throw new Exception("You cannot make a new review on a game you've already reviewed");
 		if (title == null || title.isEmpty() 
 				|| rating < 1 || rating > 5
 				|| description == null || description.isEmpty()

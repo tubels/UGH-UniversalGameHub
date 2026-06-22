@@ -3,6 +3,8 @@ package com.ugh.ugh.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +39,7 @@ public class Publisher {
 	@Column(name = "Name")
 	private String name;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "publisher")
 	@ToString.Exclude
 	private Collection<Game> games = new ArrayList<>();

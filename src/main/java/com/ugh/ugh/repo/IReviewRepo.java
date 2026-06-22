@@ -8,6 +8,6 @@ import com.ugh.ugh.model.User;
 
 public interface IReviewRepo extends CrudRepository<Review, Long> {
 
-	boolean existsByUserAngGame(User user, Game game);
+	boolean existsByUserAndGame(User user, Game game);
 
 }
