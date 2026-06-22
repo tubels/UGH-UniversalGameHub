@@ -30,14 +30,14 @@ public class GameCRUDServiceImpl implements IGameCRUDService {
 				|| developer == null
 				|| publisher == null
 				|| genres == null || genres.isEmpty()) {
-			throw new Exception("One of the input fields are incorrect or empty");
+			throw new Exception("One or more of the input fields are incorrect or empty");
 		}
 		
-		//TODO make if and else where you cannot make duplicate (look Seminar 5)
-		
+		if(gameRepo.existsByTitle(title)) throw new Exception("Game with this title already exists");
 		
 		Game newGame = new Game(title, price, description, releaseDate, developer, publisher, genres);
 		gameRepo.save(newGame);
+		
 	}
 	
 	@Override
@@ -68,13 +68,14 @@ public class GameCRUDServiceImpl implements IGameCRUDService {
 				|| developer == null
 				|| publisher == null
 				|| genres == null || genres.isEmpty()) {
-			throw new Exception("One of the input fields are incorrect or empty");
+			throw new Exception("One or more of the input fields are incorrect or empty");
 		}
 		if (!gameFromDB.getTitle().equals(title)) gameFromDB.setTitle(title);
-		if (!(gameFromDB.getPrice() != price)) gameFromDB.setPrice(price);
+		if (gameFromDB.getPrice() != price) gameFromDB.setPrice(price);
 		if (!gameFromDB.getDescription().equals(description)) gameFromDB.setDescription(description);
 		if (!gameFromDB.getReleaseDate().equals(releaseDate)) gameFromDB.setReleaseDate(releaseDate);
 		if (!gameFromDB.getPublisher().equals(publisher)) gameFromDB.setPublisher(publisher);
+		if (!gameFromDB.getDeveloper().equals(developer)) gameFromDB.setDeveloper(developer);
 		if (!gameFromDB.getGenres().equals(genres)) gameFromDB.setGenres(genres);
 	
 		gameRepo.save(gameFromDB);

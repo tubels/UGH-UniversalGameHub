@@ -74,14 +74,14 @@ public class UghApplication {
 				
 // ================================= USER =====================================	
 				
-				User user1 = new User("Nerdo", "pass1", "nerd@gmail.com");
-				User user2 = new User("Zanis Antons15", "pass2", "ZanAnt@gmail.com");
+				User user1 = new User("Nerdo", "nerd@gmail.com");
+				User user2 = new User("Zanis Antons15", "ZanAnt@gmail.com");
 				userRepo.saveAll(Arrays.asList(user1, user2));
 				
 // ================================= REVIEW =====================================	
 				
-				Review review1 = new Review(4, "Very good horde shooter but alot of paid dlc, alot of cosmetics available and playstyles. Fun game to shut off the brain to.", user1, payday2);
-				Review review2 = new Review(5, "\"Go now, and should you fall, remember this: Every day is a good day to die for Democracy!\" ~Democracy Officer", user2, helldivers2);
+				Review review1 = new Review("Extremely fun co op", 4, "Very good horde shooter but alot of paid dlc, alot of cosmetics available and playstyles. Fun game to shut off the brain to.", user1, payday2);
+				Review review2 = new Review("A must try", 5, "\"Go now, and should you fall, remember this: Every day is a good day to die for Democracy!\" ~Democracy Officer", user2, helldivers2);
 				revRepo.saveAll(Arrays.asList(review1, review2));
 				
 // ================================= USERGAME =====================================	

@@ -6,4 +6,6 @@ import com.ugh.ugh.model.Publisher;
 
 public interface IPublisherRepo extends CrudRepository<Publisher, Long> {
 
+	boolean existsByName(String name);
+
 }
