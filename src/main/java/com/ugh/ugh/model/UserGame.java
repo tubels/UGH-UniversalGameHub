@@ -1,7 +1,5 @@
 package com.ugh.ugh.model;
 
-
-
 import com.ugh.ugh.enums.GameStatus;
 
 import jakarta.persistence.Column;
@@ -55,5 +53,4 @@ public class UserGame {
 		setUser(user);
 		setGame(game);
 	}
-	
 }

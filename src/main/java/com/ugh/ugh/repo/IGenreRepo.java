@@ -6,4 +6,6 @@ import com.ugh.ugh.model.Genre;
 
 public interface IGenreRepo extends CrudRepository<Genre, Long> {
 
+	boolean existsByName(String name);
+
 }

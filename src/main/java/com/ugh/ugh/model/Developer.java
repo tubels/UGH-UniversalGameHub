@@ -43,7 +43,5 @@ public class Developer {
 	
 	public Developer(String name) {
 		setName(name);
-	}
-	
-	
+	}	
 }

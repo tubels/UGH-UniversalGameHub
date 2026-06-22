@@ -6,8 +6,6 @@ import java.util.Collection;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -57,7 +55,6 @@ public class Game {
 	@Column(name = "Description")
 	private String description;
 	
-	//vai iespejams ka vel nav released bet ir wishlist and all?
 	@NotNull
 	@Column(name = "ReleaseDate")
 	private LocalDate releaseDate;
@@ -85,7 +82,6 @@ public class Game {
 	@ToString.Exclude
 	private Collection<UserGame> userGames = new ArrayList<>();
 	
-	
 	public Game(String title, float price, String description, LocalDate releaseDate, Developer developer, Publisher publisher, Collection<Genre> genres) {
 		setTitle(title);
 		setPrice(price);
@@ -95,5 +91,4 @@ public class Game {
 		setDeveloper(developer);
 		setGenres(genres);
 	}
-	
 }

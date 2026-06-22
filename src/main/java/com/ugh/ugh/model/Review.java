@@ -32,6 +32,11 @@ public class Review {
 	@Column(name = "ReviewId")
 	private long reviewId;
 	
+	@NotNull
+	@NotEmpty
+	@Column(name = "Title")
+	private String title;
+	
 	@Min(1)
 	@Max(5)
 	@Column(name = "Rating")
@@ -52,11 +57,11 @@ public class Review {
 	@JoinColumn(name = "GameId")
 	private Game game;
 	
-	public Review(int rating, String description, User user, Game game) {
+	public Review(String title, int rating, String description, User user, Game game) {
+		setTitle(title);
 		setRating(rating);
 		setDescription(description);
 		setUser(user);
 		setGame(game);
 	}
-	
 }

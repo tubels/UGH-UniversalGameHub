@@ -44,5 +44,4 @@ public class Genre {
 	public Genre(String name) {
 		setName(name);
 	}
-	
 }
