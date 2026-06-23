@@ -32,11 +32,11 @@ public class ReviewCRUDController {
         try {
             ArrayList<Review> allReviews = reviewService.retrieveAll();
             model.addAttribute("package", allReviews);
-            return ""; // TODO: add page to show all reviews
+            return "show-all-reviews";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -45,10 +45,10 @@ public class ReviewCRUDController {
         try {
             Review reviewFound = reviewService.retrieveById(id);
             model.addAttribute("package", reviewFound);
-            return ""; // TODO: add page to show 1 review by id
+            return "show-one-review";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -58,36 +58,35 @@ public class ReviewCRUDController {
         try {
             Review reviewFound = reviewService.retrieveById(id);
             model.addAttribute("package", reviewFound);
-            return ""; // TODO: add page to show 1 review by id
+            return "show-one-review";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
     @GetMapping("/create") // localhost:8080/review/crud/create
     public String getControllerCreateNewReview(Model model) {
         model.addAttribute("review", new Review());
-        return "";// TODO: add create new review page
+        return "create-review";
     }
 
     @PostMapping("/create")
     public String postControllerCreateNewReview(@Valid Review review, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            return "create";
+            return "create-review";
         }
 
         try {
             reviewService.create(review.getTitle(), review.getRating(), review.getDescription(), review.getUser(),
                     review.getGame());
 
-            return ""; // TODO: return created review?
+            return "redirect:/review/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
 
     @GetMapping("/update/{id}") // localhost:8080/review/crud/update/1
@@ -95,10 +94,10 @@ public class ReviewCRUDController {
         try {
             Review reviewToUpdate = reviewService.retrieveById(id);
             model.addAttribute("review", reviewToUpdate);
-            return ""; // TODO: add update review page
+            return "update-review";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -107,21 +106,20 @@ public class ReviewCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
-                return ""; // TODO: return to update page
+                return "update-review";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
-                return ""; // TODO: add error page
+                return "error-page";
             }
-
         }
 
         try {
             reviewService.updateById(id, review.getTitle(), review.getRating(), review.getDescription(),
                     review.getUser(), review.getGame());
-            return ""; // TODO: something idk
+            return "redirect:/review/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -130,13 +128,11 @@ public class ReviewCRUDController {
         try {
             reviewService.deleteById(id);
             model.addAttribute("package", reviewService.retrieveAll());
-            return ""; // TODO: redirect somewhere
+            return "show-all-reviews";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
-
 }

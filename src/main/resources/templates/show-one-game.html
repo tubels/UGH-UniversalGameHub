@@ -1,0 +1,15 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<body>
+	<h1>Game Details</h1>
+	<p>ID: <span th:text="${package.gameId}"></span></p>
+	<p>Title: <span th:text="${package.title}"></span></p>
+	<p>Price: <span th:text="${package.price}"></span></p>
+	<p>Description: <span th:text="${package.description}"></span></p>	
+	<p>Release date: <span th:text="${package.releaseDate}"></span></p>
+	<p>Developer: <span th:text="${package.developer.name}"></span></p>
+	<p>Publisher: <span th:text="${package.publisher.name}"></span></p>
+</body>
+</html>
+	
+	

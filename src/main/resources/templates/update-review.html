@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<body>
+	<h1>Update Game</h1>
+	<form method="post"
+		th:object="${review}"
+		th:action="@{/review/crud/update/__${review.reviewId}__}">
+		
+		<table>
+			<tr>
+				<td>Title:</td>
+				<td><input type="text" thd:field="*{title}"></td>
+			</tr>
+			<tr>
+				<td>Rating:</td>
+				<td><input type="number" step="1" th:field="*{rating}"></td>
+			</tr>
+			<tr>
+				<td>Description:</td>
+				<td><input type="text" th:field="*{description}"></td>
+			</tr>
+
+			
+			
+		</table>
+	<button type="submit">
+				Save
+	</button>
+	</form>	
+</body>
+</html>
+					

@@ -32,11 +32,11 @@ public class GenreCRUDController {
         try {
             ArrayList<Genre> allGenres = genreService.retrieveAll();
             model.addAttribute("package", allGenres);
-            return ""; // TODO: add page to show all genres
+            return "show-all-genres";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -45,10 +45,10 @@ public class GenreCRUDController {
         try {
             Genre genreFound = genreService.retrieveById(id);
             model.addAttribute("package", genreFound);
-            return ""; // TODO: add page to show 1 genre by id
+            return "show-one-genre";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -58,35 +58,34 @@ public class GenreCRUDController {
         try {
             Genre genreFound = genreService.retrieveById(id);
             model.addAttribute("package", genreFound);
-            return ""; // TODO: add page to show 1 genre by id
+            return "show-one-genre";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
     @GetMapping("/create") // localhost:8080/genre/crud/create
     public String getControllerCreateNewGenre(Model model) {
         model.addAttribute("genre", new Genre());
-        return "";// TODO: add create new genre page
+        return "create-genre";
     }
 
     @PostMapping("/create")
     public String postControllerCreateNewGenre(@Valid Genre genre, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            return "create";
+            return "create-genre";
         }
 
         try {
             genreService.create(genre.getName());
 
-            return ""; // TODO: return created genre?
+            return "redirect:/genre/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
 
     @GetMapping("/update/{id}") // localhost:8080/genre/crud/update/1
@@ -94,10 +93,10 @@ public class GenreCRUDController {
         try {
             Genre genreToUpdate = genreService.retrieveById(id);
             model.addAttribute("genre", genreToUpdate);
-            return ""; // TODO: add update genre page
+            return "update-genre";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -106,20 +105,19 @@ public class GenreCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
-                return ""; // TODO: return to update page
+                return "update-genre";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
-                return ""; // TODO: add error page
+                return "error-page";
             }
-
         }
 
         try {
             genreService.updateById(id, genre.getName());
-            return ""; // TODO: something idk
+            return "redirect:/genre/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -128,13 +126,11 @@ public class GenreCRUDController {
         try {
             genreService.deleteById(id);
             model.addAttribute("package", genreService.retrieveAll());
-            return ""; // TODO: redirect somewhere
+            return "show-all-genres";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
-
 }

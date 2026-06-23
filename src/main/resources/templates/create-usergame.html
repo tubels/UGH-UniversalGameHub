@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<body>
+	<h1>Create User Game</h1>
+	<form method="post"
+		th:object="${usergame}"
+		th:action="@{/usergame/crud/create}">
+		
+		<table>
+			<tr>
+				<td>Game Status:</td>
+				<td><input type="text" thd:field="*{gameStatus}"></td>
+			</tr>
+			<tr>
+				<td>User:</td>
+				<td><input type="number" th:field="*{user.username}"></td>
+			</tr>
+			<tr>
+				<td>Game:</td>
+				<td><input type="text" th:field="*{game.title}"></td>
+			</tr>
+	
+			
+		</table>
+		<button type="submit">
+			Save
+		</button>
+	</form>
+</body>
+</html>
+				
+				

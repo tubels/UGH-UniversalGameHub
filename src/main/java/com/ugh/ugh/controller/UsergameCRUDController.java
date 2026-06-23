@@ -32,11 +32,11 @@ public class UsergameCRUDController {
         try {
             ArrayList<UserGame> allUserGames = userGameService.retrieveAll();
             model.addAttribute("package", allUserGames);
-            return ""; // TODO: add page to show all userGames
+            return "show-all-usergames";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -45,10 +45,10 @@ public class UsergameCRUDController {
         try {
             UserGame userGameFound = userGameService.retrieveById(id);
             model.addAttribute("package", userGameFound);
-            return ""; // TODO: add page to show 1 userGame by id
+            return "show-one-usergame";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -58,35 +58,34 @@ public class UsergameCRUDController {
         try {
             UserGame userGameFound = userGameService.retrieveById(id);
             model.addAttribute("package", userGameFound);
-            return ""; // TODO: add page to show 1 userGame by id
+            return "show-one-usergame";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
     @GetMapping("/create") // localhost:8080/usergame/crud/create
     public String getControllerCreateNewUserGame(Model model) {
         model.addAttribute("userGame", new UserGame());
-        return "";// TODO: add create new userGame page
+        return "create-usergame";
     }
 
     @PostMapping("/create")
     public String postControllerCreateNewUserGame(@Valid UserGame userGame, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            return "create";
+            return "create-usergame";
         }
 
         try {
             userGameService.create(userGame.getGameStatus(), userGame.getUser(), userGame.getGame());
 
-            return ""; // TODO: return created userGame?
+            return "redirect:/usergame/show/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
 
     @GetMapping("/update/{id}") // localhost:8080/usergame/crud/update/1
@@ -94,10 +93,10 @@ public class UsergameCRUDController {
         try {
             UserGame userGameToUpdate = userGameService.retrieveById(id);
             model.addAttribute("userGame", userGameToUpdate);
-            return ""; // TODO: add update userGame page
+            return "update-usergame";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -106,20 +105,19 @@ public class UsergameCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
-                return ""; // TODO: return to update page
+                return "update-usergame";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
-                return ""; // TODO: add error page
+                return "error-page";
             }
-
         }
 
         try {
             userGameService.updateById(id, userGame.getGameStatus(), userGame.getUser(), userGame.getGame());
-            return ""; // TODO: something idk
+            return "redirect:/usergame/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -132,9 +130,7 @@ public class UsergameCRUDController {
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
-
 }

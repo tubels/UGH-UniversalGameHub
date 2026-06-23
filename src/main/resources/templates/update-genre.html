@@ -1,0 +1,21 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<body>
+	<h1>Update Genre</h1>
+	<form method="post"
+		th:object="${genre}"
+		th:action="@{/genre/crud/update/__${genre.genreId}__}">
+		
+		<table>
+			<tr>
+				<td>Name:</td>
+				<td><input type="text" thd:field="*{name}"></td>
+			</tr>
+		</table>
+	<button type="submit">
+				Save
+	</button>
+	</form>	
+</body>
+</html>
+					

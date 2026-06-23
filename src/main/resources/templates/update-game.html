@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<body>
+	<h1>Update Game</h1>
+	<form method="post"
+		th:object="${game}"
+		th:action="@{/game/crud/update/__${game.gameId}__}">
+		
+		<table>
+			<tr>
+				<td>Title:</td>
+				<td><input type="text" th:field="*{title}"></td>
+			</tr>
+			<tr>
+				<td>Price:</td>
+				<td><input type="number" step="0.01" th:field="*{price}"></td>
+			</tr>
+			<tr>
+				<td>Description:</td>
+				<td><input type="text" th:field="*{description}"></td>
+			</tr>
+			<tr>
+				<td>Release Date:</td>
+				<td><input type="date" th:field="*{releaseDate}"></td>
+			</tr>
+			
+			
+		</table>
+	<button type="submit">
+				Save
+	</button>
+	</form>	
+</body>
+</html>
+					

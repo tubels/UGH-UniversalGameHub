@@ -32,11 +32,11 @@ public class DeveloperCRUDController {
         try {
             ArrayList<Developer> allDevelopers = developerService.retrieveAll();
             model.addAttribute("package", allDevelopers);
-            return ""; // TODO: add page to show all developers
+            return "show-all-developers";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -45,10 +45,10 @@ public class DeveloperCRUDController {
         try {
             Developer developerFound = developerService.retrieveById(id);
             model.addAttribute("package", developerFound);
-            return ""; // TODO: add page to show 1 developer by id
+            return "show-one-developer";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -58,35 +58,34 @@ public class DeveloperCRUDController {
         try {
             Developer developerFound = developerService.retrieveById(id);
             model.addAttribute("package", developerFound);
-            return ""; // TODO: add page to show 1 developer by id
+            return "show-one-developer";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
     @GetMapping("/create") // localhost:8080/developer/crud/create
     public String getControllerCreateNewDeveloper(Model model) {
         model.addAttribute("developer", new Developer());
-        return "";// TODO: add create new developer page
+        return "create-developer";
     }
 
     @PostMapping("/create")
     public String postControllerCreateNewDeveloper(@Valid Developer developer, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            return "create";
+            return "create-developer";
         }
 
         try {
             developerService.create(developer.getName());
 
-            return ""; // TODO: return created developer?
+            return "redirect:/developer/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
 
     @GetMapping("/update/{id}") // localhost:8080/developer/crud/update/1
@@ -94,10 +93,10 @@ public class DeveloperCRUDController {
         try {
             Developer developerToUpdate = developerService.retrieveById(id);
             model.addAttribute("developer", developerToUpdate);
-            return ""; // TODO: add update developer page
+            return "update-developer";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -106,20 +105,19 @@ public class DeveloperCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
-                return ""; // TODO: return to update page
+                return "update-developer";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
-                return ""; // TODO: add error page
+                return "error-page";
             }
-
         }
 
         try {
             developerService.updateById(id, developer.getName());
-            return ""; // TODO: something idk
+            return "redirect:/developer/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -128,13 +126,11 @@ public class DeveloperCRUDController {
         try {
             developerService.deleteById(id);
             model.addAttribute("package", developerService.retrieveAll());
-            return ""; // TODO: redirect somewhere
+            return "show-all-developers";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
-
 }

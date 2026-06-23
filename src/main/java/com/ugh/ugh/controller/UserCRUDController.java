@@ -32,11 +32,11 @@ public class UserCRUDController {
         try {
             ArrayList<User> allUsers = userService.retrieveAll();
             model.addAttribute("package", allUsers);
-            return ""; // TODO: add page to show all users
+            return "show-all-users";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -45,10 +45,10 @@ public class UserCRUDController {
         try {
             User userFound = userService.retrieveById(id);
             model.addAttribute("package", userFound);
-            return ""; // TODO: add page to show 1 user by id
+            return "show-one-user";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -58,35 +58,34 @@ public class UserCRUDController {
         try {
             User userFound = userService.retrieveById(id);
             model.addAttribute("package", userFound);
-            return ""; // TODO: add page to show 1 user by id
+            return "show-one-user";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
     @GetMapping("/create") // localhost:8080/user/crud/create
     public String getControllerCreateNewUser(Model model) {
         model.addAttribute("user", new User());
-        return "";// TODO: add create new user page
+        return "create-user";
     }
 
     @PostMapping("/create")
     public String postControllerCreateNewUser(@Valid User user, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            return "create";
+            return "create-user";
         }
 
         try {
             userService.create(user.getUsername(), user.getEmail());
 
-            return ""; // TODO: return created user?
+            return "redirect:/user/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
 
     @GetMapping("/update/{id}") // localhost:8080/user/crud/update/1
@@ -94,10 +93,10 @@ public class UserCRUDController {
         try {
             User userToUpdate = userService.retrieveById(id);
             model.addAttribute("user", userToUpdate);
-            return ""; // TODO: add update user page
+            return "update-user";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -106,20 +105,19 @@ public class UserCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
-                return ""; // TODO: return to update page
+                return "update-user";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
-                return ""; // TODO: add error page
+                return "error-page";
             }
-
         }
 
         try {
             userService.updateById(id, user.getUsername(), user.getEmail());
-            return ""; // TODO: something idk
+            return "redirect:/user/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -128,13 +126,11 @@ public class UserCRUDController {
         try {
             userService.deleteById(id);
             model.addAttribute("package", userService.retrieveAll());
-            return ""; // TODO: redirect somewhere
+            return "show-all-users";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
-
 }
