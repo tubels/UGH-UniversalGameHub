@@ -54,7 +54,7 @@ public class Game {
 	
 	@NotNull
 	@NotEmpty
-	@Column(name = "Description")
+	@Column(name = "Description", length = 1000)
 	private String description;
 	
 	@NotNull

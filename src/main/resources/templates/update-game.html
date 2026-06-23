@@ -23,7 +23,36 @@
 				<td>Release Date:</td>
 				<td><input type="date" th:field="*{releaseDate}"></td>
 			</tr>
-			
+			<tr>
+				<td>Developer ID:</td>
+				<td><select name="developerId">
+					<option th:each="dev : ${developers}"
+							th:value="${dev.devId}"
+							th:text="${dev.name}"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Publisher ID:</td>
+				<td><select name="publisherId">
+					<option th:each="publ : ${publishers}"
+							th:value="${publ.pubId}"
+							th:text="${publ.name}"></option>
+					</select>
+				</td>		
+			</tr>
+			<tr>
+				<td>Genre IDs:</td>
+				<td>
+				<div th:each="genre : ${genres}">
+					<input type="checkbox"
+							name="genreIds"
+							th:value="${genre.genreId}"
+							th:checked="${game.genres.contains(genre)}">
+					<span th:text="${genre.name}"></span>
+				</div>
+				</td>
+			</tr>
 			
 		</table>
 	<button type="submit">
