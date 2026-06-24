@@ -93,6 +93,7 @@ public class PublisherCRUDController {
         try {
             Publisher publisherToUpdate = publisherService.retrieveById(id);
             model.addAttribute("publisher", publisherToUpdate);
+            model.addAttribute("id", id);
             return "update-publisher";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
@@ -105,6 +106,7 @@ public class PublisherCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
+            	model.addAttribute("id", id);
                 return "update-publisher";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());

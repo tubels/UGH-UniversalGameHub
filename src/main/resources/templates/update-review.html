@@ -4,24 +4,46 @@
 	<h1>Update Game</h1>
 	<form method="post"
 		th:object="${review}"
-		th:action="@{/review/crud/update/__${review.reviewId}__}">
+		th:action="@{/review/crud/update/__${id}__}">
 		
 		<table>
 			<tr>
 				<td>Title:</td>
-				<td><input type="text" thd:field="*{title}"></td>
+				<td><input type="text" th:field="*{title}"></td>
+				<td th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></td>
 			</tr>
 			<tr>
 				<td>Rating:</td>
 				<td><input type="number" step="1" th:field="*{rating}"></td>
+				<td th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}"></td>
 			</tr>
 			<tr>
 				<td>Description:</td>
 				<td><input type="text" th:field="*{description}"></td>
+				<td th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></td>
 			</tr>
-
-			
-			
+			<tr>
+				<td>User:</td>
+				<td>
+					<select name="userId">
+						<option th:each="user : ${users}"
+								th:value="${user.userId}"
+								th:text="${user.username}"
+								th:selected="${review.user != null and review.user.userId == user.userId}"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Game:</td>
+				<td>
+					<select name="gameId">
+						<option th:each="game : ${games}"
+								th:value="${game.gameId}"
+								th:text="${game.title}"
+								th:selected="${review.game != null and review.game.gameId == game.gameId}"></option>
+					</select>
+				</td>
+			</tr>	
 		</table>
 	<button type="submit">
 				Save

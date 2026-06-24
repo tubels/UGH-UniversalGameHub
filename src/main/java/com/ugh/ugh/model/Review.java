@@ -44,15 +44,13 @@ public class Review {
 	
 	@NotNull
 	@NotEmpty
-	@Column(name = "Description")
+	@Column(name = "Description", length=1000)
 	private String description;
 	
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "UserId")
 	private User user;
 	
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "GameId")
 	private Game game;

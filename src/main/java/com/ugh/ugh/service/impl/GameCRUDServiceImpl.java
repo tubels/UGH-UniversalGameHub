@@ -38,8 +38,7 @@ public class GameCRUDServiceImpl implements IGameCRUDService {
 				|| description == null || description.isEmpty()
 				|| releaseDate == null 
 				|| developerId <= 0 
-				|| publisherId <= 0
-				|| genreIds == null || genreIds.length == 0) {
+				|| publisherId <= 0 ) {
 			throw new Exception("One or more of the input fields are incorrect or empty");
 		}
 		
@@ -50,11 +49,14 @@ public class GameCRUDServiceImpl implements IGameCRUDService {
 				.orElseThrow(() -> new Exception("Publisher not found"));
 		
 		Collection<Genre> genreCollection = new ArrayList<>();
-		for (Long genreId : genreIds) {
-			Genre genre = genreRepo.findById(genreId)
-					.orElseThrow(() -> new Exception("Genre not found"));
-			genreCollection.add(genre);
+		if (genreIds != null) {
+			for (Long genreId : genreIds) {
+				Genre genre = genreRepo.findById(genreId)
+						.orElseThrow(() -> new Exception("Genre not found"));
+				genreCollection.add(genre);
+			}
 		}
+		
 		
 		if(gameRepo.existsByTitle(title)) throw new Exception("Game with this title already exists");
 		
@@ -89,8 +91,7 @@ public class GameCRUDServiceImpl implements IGameCRUDService {
 				|| description == null || description.isEmpty()
 				|| releaseDate == null 
 				|| developerId <= 0
-				|| publisherId <= 0
-				|| genreIds == null || genreIds.length == 0) {
+				|| publisherId <= 0 ) {
 			throw new Exception("One or more of the input fields are incorrect or empty");
 		}
 		
@@ -101,10 +102,12 @@ public class GameCRUDServiceImpl implements IGameCRUDService {
 				.orElseThrow(() -> new Exception("Publisher not found"));
 		
 		Collection<Genre> genreCollection = new ArrayList<>();
-		for (Long genreId : genreIds) {
-			Genre genre = genreRepo.findById(genreId)
-					.orElseThrow(() -> new Exception("Genre not found"));
-			genreCollection.add(genre);
+		if (genreIds != null) {
+			for (Long genreId : genreIds) {
+				Genre genre = genreRepo.findById(genreId)
+						.orElseThrow(() -> new Exception("Genre not found"));
+				genreCollection.add(genre);
+			}
 		}
 		
 		if (!gameFromDB.getTitle().equals(title)) {

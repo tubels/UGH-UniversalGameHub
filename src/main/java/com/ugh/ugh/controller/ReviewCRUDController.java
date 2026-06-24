@@ -2,6 +2,7 @@ package com.ugh.ugh.controller;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ugh.ugh.model.Review;
+import com.ugh.ugh.repo.IGameRepo;
+import com.ugh.ugh.repo.IUserRepo;
 import com.ugh.ugh.service.IReviewCRUDService;
 
 import jakarta.validation.Valid;
@@ -20,6 +23,11 @@ import jakarta.validation.Valid;
 @RequestMapping("/review/crud")
 public class ReviewCRUDController {
 
+	@Autowired
+	private IUserRepo userRepo;
+	@Autowired
+	private IGameRepo gameRepo;
+	
     private final IReviewCRUDService reviewService;
 
     ReviewCRUDController(IReviewCRUDService reviewService) {
@@ -68,19 +76,20 @@ public class ReviewCRUDController {
     @GetMapping("/create") // localhost:8080/review/crud/create
     public String getControllerCreateNewReview(Model model) {
         model.addAttribute("review", new Review());
+        loadDropDowns(model);
         return "create-review";
     }
 
     @PostMapping("/create")
-    public String postControllerCreateNewReview(@Valid Review review, BindingResult result, Model model) {
-
+    public String postControllerCreateNewReview(@Valid Review review, BindingResult result, 
+    							@RequestParam long userId, @RequestParam long gameId, Model model) {
         if (result.hasErrors()) {
+        	loadDropDowns(model);
             return "create-review";
         }
-
         try {
-            reviewService.create(review.getTitle(), review.getRating(), review.getDescription(), review.getUser(),
-                    review.getGame());
+            reviewService.create(review.getTitle(), review.getRating(), review.getDescription(), userId,
+                    gameId);
 
             return "redirect:/review/crud/all";
         } catch (Exception e) {
@@ -94,6 +103,8 @@ public class ReviewCRUDController {
         try {
             Review reviewToUpdate = reviewService.retrieveById(id);
             model.addAttribute("review", reviewToUpdate);
+            model.addAttribute("id", id);
+            loadDropDowns(model);
             return "update-review";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
@@ -103,19 +114,20 @@ public class ReviewCRUDController {
 
     @PostMapping("/update/{id}")
     public String postControllerUpdateReviewById(@PathVariable(name = "id") long id, @Valid Review review,
-            BindingResult result, Model model) {
+            BindingResult result, @RequestParam long userId, @RequestParam long gameId, Model model) {
         if (result.hasErrors()) {
             try {
+            	model.addAttribute("id", id);
+            	loadDropDowns(model);
                 return "update-review";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
                 return "error-page";
             }
         }
-
         try {
             reviewService.updateById(id, review.getTitle(), review.getRating(), review.getDescription(),
-                    review.getUser(), review.getGame());
+                    userId, gameId);
             return "redirect:/review/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
@@ -134,5 +146,10 @@ public class ReviewCRUDController {
             model.addAttribute("package", e.getMessage());
             return "error-page";
         }
+    }
+    
+    private void loadDropDowns(Model model) {
+    	model.addAttribute("users", userRepo.findAll());
+    	model.addAttribute("games", gameRepo.findAll());
     }
 }

@@ -93,6 +93,7 @@ public class DeveloperCRUDController {
         try {
             Developer developerToUpdate = developerService.retrieveById(id);
             model.addAttribute("developer", developerToUpdate);
+            model.addAttribute("id", id);
             return "update-developer";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
@@ -105,6 +106,7 @@ public class DeveloperCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
+            	model.addAttribute("id", id);
                 return "update-developer";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());

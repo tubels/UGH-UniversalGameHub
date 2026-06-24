@@ -4,31 +4,36 @@
 	<h1>Update Game</h1>
 	<form method="post"
 		th:object="${game}"
-		th:action="@{/game/crud/update/__${game.gameId}__}">
+		th:action="@{/game/crud/update/__${id}__}">
 		
 		<table>
 			<tr>
 				<td>Title:</td>
 				<td><input type="text" th:field="*{title}"></td>
+				<td th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></td>
 			</tr>
 			<tr>
 				<td>Price:</td>
 				<td><input type="number" step="0.01" th:field="*{price}"></td>
+				<td th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></td>
 			</tr>
 			<tr>
 				<td>Description:</td>
 				<td><input type="text" th:field="*{description}"></td>
+				<td th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></td>
 			</tr>
 			<tr>
 				<td>Release Date:</td>
 				<td><input type="date" th:field="*{releaseDate}"></td>
+				<td th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></td>
 			</tr>
 			<tr>
 				<td>Developer ID:</td>
 				<td><select name="developerId">
 					<option th:each="dev : ${developers}"
 							th:value="${dev.devId}"
-							th:text="${dev.name}"></option>
+							th:text="${dev.name}"
+							th:selected="${game.developer != null and game.developer.devId == dev.devId}"></option>
 					</select>
 				</td>
 			</tr>
@@ -37,7 +42,8 @@
 				<td><select name="publisherId">
 					<option th:each="publ : ${publishers}"
 							th:value="${publ.pubId}"
-							th:text="${publ.name}"></option>
+							th:text="${publ.name}"
+							th:selected="${game.publisher != null and game.publisher.pubId == publ.pubId}"></option>
 					</select>
 				</td>		
 			</tr>
@@ -48,7 +54,7 @@
 					<input type="checkbox"
 							name="genreIds"
 							th:value="${genre.genreId}"
-							th:checked="${game.genres.contains(genre)}">
+							th:checked="${game.genres != null and game.genres.contains(genre)}">
 					<span th:text="${genre.name}"></span>
 				</div>
 				</td>

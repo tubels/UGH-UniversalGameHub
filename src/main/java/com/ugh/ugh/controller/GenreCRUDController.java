@@ -93,6 +93,7 @@ public class GenreCRUDController {
         try {
             Genre genreToUpdate = genreService.retrieveById(id);
             model.addAttribute("genre", genreToUpdate);
+            model.addAttribute("id", id);
             return "update-genre";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
@@ -105,6 +106,7 @@ public class GenreCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
+            	model.addAttribute("id", id);
                 return "update-genre";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());

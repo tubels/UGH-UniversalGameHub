@@ -7,6 +7,6 @@ import com.ugh.ugh.model.UserGame;
 
 public interface IUsergameCRUDService extends ICRUDServiceBase<UserGame> {
 
-	public abstract void create(GameStatus gameStatus, User user, Game game) throws Exception;
-	public abstract void updateById(long id, GameStatus gameStatus, User user, Game game) throws Exception;
+	public abstract void create(GameStatus gameStatus, long userId, long gameId) throws Exception;
+	public abstract void updateById(long id, GameStatus gameStatus, long userId, long gameId) throws Exception;
 }

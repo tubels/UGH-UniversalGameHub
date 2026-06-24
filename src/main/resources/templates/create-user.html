@@ -9,15 +9,14 @@
 		<table>
 			<tr>
 				<td>Username:</td>
-				<td><input type="text" thd:field="*{username}"></td>
+				<td><input type="text" th:field="*{username}"></td>
+				<td th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></td>
 			</tr>
 			<tr>
 				<td>Email:</td>
-				<td><input type="number" th:field="*{email}"></td>
+				<td><input type="email" th:field="*{email}"></td>
+				<td th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
 			</tr>
-
-			
-			
 		</table>
 		<button type="submit">
 			Save

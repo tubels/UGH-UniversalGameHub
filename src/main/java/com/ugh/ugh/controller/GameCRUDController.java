@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,8 @@ import com.ugh.ugh.repo.IDeveloperRepo;
 import com.ugh.ugh.repo.IGenreRepo;
 import com.ugh.ugh.repo.IPublisherRepo;
 import com.ugh.ugh.service.IGameCRUDService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/game/crud")
@@ -73,15 +76,18 @@ public class GameCRUDController {
 	@GetMapping("/create") // localhost:8080/game/crud/create
 	public String getControllerCreateNewGame(Model model) {
 		model.addAttribute("game", new Game());
-		model.addAttribute("developers", devRepo.findAll());
-		model.addAttribute("publishers", publRepo.findAll());
-		model.addAttribute("genres", genreRepo.findAll());
+		loadDropdowns(model);
 		return "create-game";
 	}
 
 	@PostMapping("/create")
-	public String postControllerCreateNewGame(Game game, 
-								@RequestParam long developerId, @RequestParam long publisherId, @RequestParam Long[] genreIds, Model model) {
+	public String postControllerCreateNewGame(@Valid Game game, BindingResult result,
+								@RequestParam long developerId, @RequestParam long publisherId, @RequestParam(required = false) Long[] genreIds, Model model) {
+		
+		if (result.hasErrors()) {
+			loadDropdowns(model);
+			return "create-game";
+		}
 		
 		try {
 			gameService.create(game.getTitle(), game.getPrice(), game.getDescription(), game.getReleaseDate(),
@@ -98,9 +104,8 @@ public class GameCRUDController {
 		try {
 			Game gameToUpdate = gameService.retrieveById(id);
 			model.addAttribute("game", gameToUpdate);
-			model.addAttribute("developers", devRepo.findAll());
-			model.addAttribute("publishers", publRepo.findAll());
-			model.addAttribute("genres", genreRepo.findAll());
+			model.addAttribute("id", id);
+			loadDropdowns(model);
 			return "update-game";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
@@ -109,8 +114,19 @@ public class GameCRUDController {
 	}
 
 	@PostMapping("/update/{id}")
-	public String postControllerUpdateGameById(@PathVariable(name = "id") long id, Game game,
-			 @RequestParam long developerId, @RequestParam long publisherId, @RequestParam Long[] genreIds, Model model) {
+	public String postControllerUpdateGameById(@PathVariable(name = "id") long id, @Valid Game game, BindingResult result,
+			 @RequestParam long developerId, @RequestParam long publisherId, @RequestParam(required=false) Long[] genreIds, Model model) {
+		
+		if (result.hasErrors()) {
+			try {
+				model.addAttribute("id", id);
+				loadDropdowns(model);
+				return "update-game";
+			} catch (Exception e) {
+				model.addAttribute("package", e.getMessage());
+				return "error-page";
+			}
+		}
 		try {
 			gameService.updateById(id, game.getTitle(), game.getPrice(), game.getDescription(),
 					game.getReleaseDate(), developerId, publisherId, genreIds);
@@ -131,5 +147,11 @@ public class GameCRUDController {
 			model.addAttribute("package", e.getMessage());
 			return "error-page";
 		}
+	}
+	
+	private void loadDropdowns(Model model) {
+		model.addAttribute("developers", devRepo.findAll());
+		model.addAttribute("publishers", publRepo.findAll());
+		model.addAttribute("genres", genreRepo.findAll());
 	}
 }

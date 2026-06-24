@@ -93,6 +93,7 @@ public class UserCRUDController {
         try {
             User userToUpdate = userService.retrieveById(id);
             model.addAttribute("user", userToUpdate);
+            model.addAttribute("id", id);
             return "update-user";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
@@ -105,6 +106,7 @@ public class UserCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
+            	model.addAttribute("id", id);
                 return "update-user";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());

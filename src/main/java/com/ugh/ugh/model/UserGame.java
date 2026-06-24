@@ -33,17 +33,14 @@ public class UserGame {
 	@Column(name = "UserGameId")
 	private long userGameId;
 	
-	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "GameStatus")
 	private GameStatus gameStatus;
 	
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "UserId")
 	private User user;
 	
-	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "GameId")
 	private Game game;
