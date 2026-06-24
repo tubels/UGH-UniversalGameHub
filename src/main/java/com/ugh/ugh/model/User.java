@@ -37,6 +37,11 @@ public class User {
 	@NotEmpty
 	@Column(name = "Username")
 	private String username;
+
+	@NotNull
+	@NotEmpty
+	@Column(name = "Password")
+	private String password;
 	
 	@NotNull
 	@NotEmpty
@@ -55,5 +60,6 @@ public class User {
 	public User(String username, String email) {
 		setUsername(username);
 		setEmail(email);
+		setPassword(password);
 	}
 }
