@@ -1,5 +1,7 @@
 package com.ugh.ugh.repo;
 
+import java.util.Optional;
+
 import org.springframework.data.repository.CrudRepository;
 
 import com.ugh.ugh.model.User;
@@ -10,4 +12,5 @@ public interface IUserRepo extends CrudRepository<User, Long> {
 
 	boolean existsByEmail(String email);
 
+    Optional<User> findByUsername(String username);
 }
