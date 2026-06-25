@@ -71,9 +71,9 @@ public class User implements UserDetails {
 		setPassword(password);
 	}
 	
-	public User(String username, String password) {
-		setUsername(username);
-		setEmail(null);
-		setPassword(password);
-	}
+	// public User(String username, String password) {
+	// 	setUsername(username);
+	// 	setEmail(null);
+	// 	setPassword(password);
+	// }
 }
