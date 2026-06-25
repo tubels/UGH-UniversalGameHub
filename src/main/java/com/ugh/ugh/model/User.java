@@ -3,6 +3,9 @@ package com.ugh.ugh.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,7 +28,7 @@ import lombok.ToString;
 @ToString
 @Table(name = "UserTable")
 @Entity
-public class User {
+public class User implements UserDetails {
 
 	@Setter(value = AccessLevel.NONE)
 	@Id
@@ -37,6 +40,11 @@ public class User {
 	@NotEmpty
 	@Column(name = "Username")
 	private String username;
+
+	@NotNull
+	@NotEmpty
+	@Column(name = "Password")
+	private String password;
 	
 	@NotNull
 	@NotEmpty
@@ -51,9 +59,15 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	@ToString.Exclude
 	private Collection<UserGame> userGames = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<>();
+    }
 	
-	public User(String username, String email) {
+	public User(String username, String email, String password) {
 		setUsername(username);
 		setEmail(email);
+		setPassword(password);
 	}
 }

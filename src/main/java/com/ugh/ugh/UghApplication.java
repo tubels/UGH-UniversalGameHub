@@ -74,9 +74,10 @@ public class UghApplication {
 				
 // ================================= USER =====================================	
 				
-				User user1 = new User("Nerdo", "nerd@gmail.com");
-				User user2 = new User("Zanis Antons15", "ZanAnt@gmail.com");
-				userRepo.saveAll(Arrays.asList(user1, user2));
+				User admin = new User("admin", "admin@gmail.com", "$2a$12$ULY2vzxrX4/b7SIvlq5RE.eA6N2Tn.VfHpGYrhYlHHRN6nfR.Hn6y");
+				User user1 = new User("Nerdo", "nerd@gmail.com", "$2a$12$ULY2vzxrX4/b7SIvlq5RE.eA6N2Tn.VfHpGYrhYlHHRN6nfR.Hn6y");
+				User user2 = new User("Zanis Antons15", "ZanAnt@gmail.com", "$2a$12$ULY2vzxrX4/b7SIvlq5RE.eA6N2Tn.VfHpGYrhYlHHRN6nfR.Hn6y");
+				userRepo.saveAll(Arrays.asList(admin, user1, user2));
 				
 // ================================= REVIEW =====================================	
 				
