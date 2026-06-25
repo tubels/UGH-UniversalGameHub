@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<body>
+	<h1>All Reviews</h1>
+		<table border="1">
+			<tr>
+				<th>ID</th>
+				<th>Title</th>
+				<th>Rating</th>
+				<th>Description</th>
+				<th>User</th>
+				<th>Game</th>
+			</tr>
+			<tr th:each="rev :${package}">
+				<td th:text="${rev.reviewId}"></td>
+				<td th:text="${rev.title}"></td>
+				<td th:text="${rev.rating}"></td>
+				<td th:text="${rev.description}"></td>
+				<td th:text="${rev.user.username}"></td>
+				<td th:text="${rev.game.title}"></td>
+			</tr>
+		</table>
+	</body>
+</html>

@@ -2,6 +2,7 @@ package com.ugh.ugh.controller;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ugh.ugh.enums.GameStatus;
 import com.ugh.ugh.model.UserGame;
+import com.ugh.ugh.repo.IGameRepo;
+import com.ugh.ugh.repo.IUserRepo;
 import com.ugh.ugh.service.IUsergameCRUDService;
 
 import jakarta.validation.Valid;
@@ -20,6 +24,11 @@ import jakarta.validation.Valid;
 @RequestMapping("/usergame/crud")
 public class UsergameCRUDController {
 
+	@Autowired
+	private IUserRepo userRepo;
+	@Autowired
+	private IGameRepo gameRepo;
+	
     private final IUsergameCRUDService userGameService;
 
     UsergameCRUDController(IUsergameCRUDService userGameService) {
@@ -32,11 +41,11 @@ public class UsergameCRUDController {
         try {
             ArrayList<UserGame> allUserGames = userGameService.retrieveAll();
             model.addAttribute("package", allUserGames);
-            return ""; // TODO: add page to show all userGames
+            return "show-all-usergame";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -45,10 +54,10 @@ public class UsergameCRUDController {
         try {
             UserGame userGameFound = userGameService.retrieveById(id);
             model.addAttribute("package", userGameFound);
-            return ""; // TODO: add page to show 1 userGame by id
+            return "show-one-usergame";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -58,35 +67,37 @@ public class UsergameCRUDController {
         try {
             UserGame userGameFound = userGameService.retrieveById(id);
             model.addAttribute("package", userGameFound);
-            return ""; // TODO: add page to show 1 userGame by id
+            return "show-one-usergame";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
     @GetMapping("/create") // localhost:8080/usergame/crud/create
     public String getControllerCreateNewUserGame(Model model) {
         model.addAttribute("userGame", new UserGame());
-        return "";// TODO: add create new userGame page
+        loadDropdowns(model);
+        return "create-usergame";
     }
 
     @PostMapping("/create")
-    public String postControllerCreateNewUserGame(@Valid UserGame userGame, BindingResult result, Model model) {
+    public String postControllerCreateNewUserGame(@Valid UserGame userGame, BindingResult result,
+    								@RequestParam long userId, @RequestParam long gameId, Model model) {
 
         if (result.hasErrors()) {
-            return "create";
+        	loadDropdowns(model);
+            return "create-usergame";
         }
-
+        
         try {
-            userGameService.create(userGame.getGameStatus(), userGame.getUser(), userGame.getGame());
+            userGameService.create(userGame.getGameStatus(), userId, gameId);
 
-            return ""; // TODO: return created userGame?
+            return "redirect:/usergame/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
 
     @GetMapping("/update/{id}") // localhost:8080/usergame/crud/update/1
@@ -94,32 +105,35 @@ public class UsergameCRUDController {
         try {
             UserGame userGameToUpdate = userGameService.retrieveById(id);
             model.addAttribute("userGame", userGameToUpdate);
-            return ""; // TODO: add update userGame page
+            model.addAttribute("id", id);
+            loadDropdowns(model);
+            return "update-usergame";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
     @PostMapping("/update/{id}")
     public String postControllerUpdateUserGameById(@PathVariable(name = "id") long id, @Valid UserGame userGame,
-            BindingResult result, Model model) {
+            BindingResult result, @RequestParam long userId, @RequestParam long gameId, Model model) {
         if (result.hasErrors()) {
             try {
-                return ""; // TODO: return to update page
+            	model.addAttribute("id", id);
+            	loadDropdowns(model);
+                return "update-usergame";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
-                return ""; // TODO: add error page
+                return "error-page";
             }
-
         }
 
         try {
-            userGameService.updateById(id, userGame.getGameStatus(), userGame.getUser(), userGame.getGame());
-            return ""; // TODO: something idk
+            userGameService.updateById(id, userGame.getGameStatus(), userId, gameId);
+            return "redirect:/usergame/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -128,13 +142,17 @@ public class UsergameCRUDController {
         try {
             userGameService.deleteById(id);
             model.addAttribute("package", userGameService.retrieveAll());
-            return ""; // TODO: redirect somewhere
+            return "redirect:/usergame/crud/all";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
-
+    
+    private void loadDropdowns(Model model) {
+		model.addAttribute("users", userRepo.findAll());
+		model.addAttribute("games", gameRepo.findAll());
+		model.addAttribute("statuses", GameStatus.values());
+	}
 }

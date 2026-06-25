@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<body>
+	<h1>Create User Game</h1>
+	<form method="post"
+		th:object="${userGame}"
+		th:action="@{/usergame/crud/create}">
+		
+		<table>
+			<tr>
+				<td>Game Status:</td>
+				<td>
+					<select th:field="*{gameStatus}">
+						<option th:each="status : ${statuses}"
+								th:value="${status}"
+								th:text="${status}">
+						</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>User:</td>
+				<td>
+					<select name="userId">
+						<option th:each="user : ${users}"
+								th:value="${user.userId}"
+								th:text="${user.username}">
+						</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Game:</td>
+				<td>
+					<select name="gameId">
+						<option th:each="game : ${games}"
+								th:value="${game.gameId}"
+								th:text="${game.title}">
+						</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<button type="submit">
+			Save
+		</button>
+	</form>
+</body>
+</html>
+				
+				

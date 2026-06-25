@@ -1,0 +1,16 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<body>
+	<h1>All Genres</h1>
+	<table border="1">
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+		</tr>
+		<tr th:each="gen : ${package}">
+			<td th:text="${gen.genreId}"></td>
+			<td th:text="${gen.name}"></td>
+		</tr>
+	</table>
+</body>
+</html>	

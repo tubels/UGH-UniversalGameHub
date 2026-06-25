@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<body>
+	<h1>All User Games</h1>
+		<table border="1">
+			<tr>
+				<th>ID</th>
+				<th>Game Status</th>
+				<th>User</th>
+				<th>Game</th>
+			</tr>
+			<tr th:each="usergame :${package}">
+				<td th:text="${usergame.userGameId}"></td>
+				<td th:text="${usergame.gameStatus}"></td>
+				<td th:text="${usergame.user.username}"></td>
+				<td th:text="${usergame.game.title}"></td>
+			</tr>
+		</table>
+	</body>
+</html>

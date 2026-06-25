@@ -1,0 +1,67 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<body>
+	<h1>Create Game</h1>
+	<form method="post"
+		th:object="${game}"
+		th:action="@{/game/crud/create}">
+		
+		<table>
+			<tr>
+				<td>Title:</td>
+				<td><input type="text" th:field="*{title}"></td>
+				<td th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></td>
+			</tr>
+			<tr>
+				<td>Price:</td>
+				<td><input type="number" step="0.01" th:field="*{price}"></td>
+				<td th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></td>
+			</tr>
+			<tr>
+				<td>Description:</td>
+				<td><input type="text" th:field="*{description}"></td>
+				<td th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></td>
+			</tr>
+			<tr>
+				<td>Release Date:</td>
+				<td><input type="date" th:field="*{releaseDate}"></td>
+				<td th:if="${#fields.hasErrors('releaseDate')}" th:errors="*{releaseDate}"></td>
+			</tr>
+			<tr>
+				<td>Developer ID:</td>
+				<td><select name="developerId">
+					<option th:each="dev : ${developers}"
+							th:value="${dev.devId}"
+							th:text="${dev.name}"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Publisher ID:</td>
+				<td><select name="publisherId">
+					<option th:each="publ : ${publishers}"
+							th:value="${publ.pubId}"
+							th:text="${publ.name}"></option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Genre IDs:</td>
+				<td>
+				<div th:each="genre : ${genres}">
+					<input type="checkbox"
+							name="genreIds"
+							th:value="${genre.genreId}">
+					<span th:text="${genre.name}"></span>
+				</div>
+				</td>
+			</tr>	
+		</table>
+		<button type="submit">
+			Save
+		</button>
+	</form>
+</body>
+</html>
+				
+				

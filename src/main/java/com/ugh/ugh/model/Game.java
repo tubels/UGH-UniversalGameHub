@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -54,19 +56,20 @@ public class Game {
 	
 	@NotNull
 	@NotEmpty
-	@Column(name = "Description")
+	@Column(name = "Description", length = 1000)
 	private String description;
 	
 	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "ReleaseDate")
 	private LocalDate releaseDate;
 	
-	@NotNull
+
 	@ManyToOne
 	@JoinColumn(name = "DeveloperId")
 	private Developer developer;
 	
-	@NotNull
+
 	@ManyToOne
 	@JoinColumn(name = "PublisherId")
 	private Publisher publisher;

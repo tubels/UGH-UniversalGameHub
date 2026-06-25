@@ -2,6 +2,7 @@ package com.ugh.ugh.controller;
 
 import java.util.ArrayList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ugh.ugh.model.Game;
+import com.ugh.ugh.repo.IDeveloperRepo;
+import com.ugh.ugh.repo.IGenreRepo;
+import com.ugh.ugh.repo.IPublisherRepo;
 import com.ugh.ugh.service.IGameCRUDService;
 
 import jakarta.validation.Valid;
@@ -19,7 +23,14 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/game/crud")
 public class GameCRUDController {
-
+	
+	@Autowired 
+	private IDeveloperRepo devRepo;
+	@Autowired
+	private IPublisherRepo publRepo;
+	@Autowired
+	private IGenreRepo genreRepo;
+	
 	private final IGameCRUDService gameService;
 
 	GameCRUDController(IGameCRUDService gameService) {
@@ -28,15 +39,13 @@ public class GameCRUDController {
 
 	@GetMapping("/all") // localhost:8080/game/crud/all
 	public String getControllerGetAllGames(Model model) {
-
 		try {
 			ArrayList<Game> allGames = gameService.retrieveAll();
 			model.addAttribute("package", allGames);
-			return ""; // TODO: add page to show all games
-
+			return "show-all-games";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
-			return ""; // TODO: add error page
+			return "error-page";
 		}
 	}
 
@@ -45,49 +54,49 @@ public class GameCRUDController {
 		try {
 			Game gameFound = gameService.retrieveById(id);
 			model.addAttribute("package", gameFound);
-			return ""; // TODO: add page to show 1 game by id
+			return "show-one-game";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
-			return ""; // TODO: add error page
+			return "error-page";
 		}
 	}
 
 	@GetMapping("/all/{id}") // localhost:8080/game/crud/all/1
 	public String getControllerGetOneGameById2(@PathVariable(name = "id") long id, Model model) {
-
 		try {
 			Game gameFound = gameService.retrieveById(id);
 			model.addAttribute("package", gameFound);
-			return ""; // TODO: add page to show 1 game by id
+			return "show-one-game";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
-			return ""; // TODO: add error page
+			return "error-page";
 		}
 	}
 
 	@GetMapping("/create") // localhost:8080/game/crud/create
 	public String getControllerCreateNewGame(Model model) {
 		model.addAttribute("game", new Game());
-		return "";// TODO: add create new game page
+		loadDropdowns(model);
+		return "create-game";
 	}
 
 	@PostMapping("/create")
-	public String postControllerCreateNewGame(@Valid Game game, BindingResult result, Model model) {
-
+	public String postControllerCreateNewGame(@Valid Game game, BindingResult result,
+								@RequestParam long developerId, @RequestParam long publisherId, @RequestParam(required = false) Long[] genreIds, Model model) {
+		
 		if (result.hasErrors()) {
-			return "create";
+			loadDropdowns(model);
+			return "create-game";
 		}
-
+		
 		try {
 			gameService.create(game.getTitle(), game.getPrice(), game.getDescription(), game.getReleaseDate(),
-					game.getDeveloper(), game.getPublisher(), game.getGenres());
-
-			return ""; // TODO: return created game?
+					developerId, publisherId, genreIds);
+			return "redirect:/game/crud/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
-			return ""; // TODO: add error page
+			return "error-page";
 		}
-
 	}
 
 	@GetMapping("/update/{id}") // localhost:8080/game/crud/update/1
@@ -95,33 +104,36 @@ public class GameCRUDController {
 		try {
 			Game gameToUpdate = gameService.retrieveById(id);
 			model.addAttribute("game", gameToUpdate);
-			return ""; // TODO: add update game page
+			model.addAttribute("id", id);
+			loadDropdowns(model);
+			return "update-game";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
-			return ""; // TODO: add error page
+			return "error-page";
 		}
 	}
 
 	@PostMapping("/update/{id}")
-	public String postControllerUpdateGameById(@PathVariable(name = "id") long id, @Valid Game game,
-			BindingResult result, Model model) {
+	public String postControllerUpdateGameById(@PathVariable(name = "id") long id, @Valid Game game, BindingResult result,
+			 @RequestParam long developerId, @RequestParam long publisherId, @RequestParam(required=false) Long[] genreIds, Model model) {
+		
 		if (result.hasErrors()) {
 			try {
-				return ""; // TODO: return to update page
+				model.addAttribute("id", id);
+				loadDropdowns(model);
+				return "update-game";
 			} catch (Exception e) {
 				model.addAttribute("package", e.getMessage());
-				return ""; // TODO: add error page
+				return "error-page";
 			}
-
 		}
-
 		try {
 			gameService.updateById(id, game.getTitle(), game.getPrice(), game.getDescription(),
-					game.getReleaseDate(), game.getDeveloper(), game.getPublisher(), game.getGenres());
-			return ""; // TODO: something idk
+					game.getReleaseDate(), developerId, publisherId, genreIds);
+			return "redirect:/game/crud/all";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
-			return ""; // TODO: add error page
+			return "error-page";
 		}
 	}
 
@@ -130,13 +142,16 @@ public class GameCRUDController {
 		try {
 			gameService.deleteById(id);
 			model.addAttribute("package", gameService.retrieveAll());
-			return ""; // TODO: redirect somewhere
-
+			return "show-all-games";
 		} catch (Exception e) {
 			model.addAttribute("package", e.getMessage());
-			return ""; // TODO: add error page
+			return "error-page";
 		}
-
 	}
-
+	
+	private void loadDropdowns(Model model) {
+		model.addAttribute("developers", devRepo.findAll());
+		model.addAttribute("publishers", publRepo.findAll());
+		model.addAttribute("genres", genreRepo.findAll());
+	}
 }

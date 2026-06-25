@@ -32,11 +32,11 @@ public class PublisherCRUDController {
         try {
             ArrayList<Publisher> allPublishers = publisherService.retrieveAll();
             model.addAttribute("package", allPublishers);
-            return ""; // TODO: add page to show all publishers
+            return "show-all-publishers";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -45,10 +45,10 @@ public class PublisherCRUDController {
         try {
             Publisher publisherFound = publisherService.retrieveById(id);
             model.addAttribute("package", publisherFound);
-            return ""; // TODO: add page to show 1 publisher by id
+            return "show-one-publisher";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -58,35 +58,34 @@ public class PublisherCRUDController {
         try {
             Publisher publisherFound = publisherService.retrieveById(id);
             model.addAttribute("package", publisherFound);
-            return ""; // TODO: add page to show 1 publisher by id
+            return "show-one-publisher";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
     @GetMapping("/create") // localhost:8080/publisher/crud/create
     public String getControllerCreateNewPublisher(Model model) {
         model.addAttribute("publisher", new Publisher());
-        return "";// TODO: add create new publisher page
+        return "create-publisher";
     }
 
     @PostMapping("/create")
     public String postControllerCreateNewPublisher(@Valid Publisher publisher, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            return "create";
+            return "create-publisher";
         }
 
         try {
             publisherService.create(publisher.getName());
 
-            return ""; // TODO: return created publisher?
+            return "redirect:/publisher/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
 
     @GetMapping("/update/{id}") // localhost:8080/publisher/crud/update/1
@@ -94,10 +93,11 @@ public class PublisherCRUDController {
         try {
             Publisher publisherToUpdate = publisherService.retrieveById(id);
             model.addAttribute("publisher", publisherToUpdate);
-            return ""; // TODO: add update publisher page
+            model.addAttribute("id", id);
+            return "update-publisher";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -106,20 +106,20 @@ public class PublisherCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
-                return ""; // TODO: return to update page
+            	model.addAttribute("id", id);
+                return "update-publisher";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
-                return ""; // TODO: add error page
+                return "error-page";
             }
-
         }
 
         try {
             publisherService.updateById(id, publisher.getName());
-            return ""; // TODO: something idk
+            return "redirect:/publisher/crud/all";
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
     }
 
@@ -128,13 +128,11 @@ public class PublisherCRUDController {
         try {
             publisherService.deleteById(id);
             model.addAttribute("package", publisherService.retrieveAll());
-            return ""; // TODO: redirect somewhere
+            return "show-all-publishers";
 
         } catch (Exception e) {
             model.addAttribute("package", e.getMessage());
-            return ""; // TODO: add error page
+            return "error-page";
         }
-
     }
-
 }

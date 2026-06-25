@@ -11,7 +11,7 @@ import com.ugh.ugh.model.Publisher;
 public interface IGameCRUDService extends ICRUDServiceBase<Game> {
 	
 	public abstract void create(String title, float price, String description, LocalDate releaseDate, 
-								Developer developer, Publisher publisher, Collection<Genre> genres) throws Exception;
+								long developerId, long publisherId, Long[] genreIds) throws Exception;
 	public abstract void updateById(long id, String title, float price, String description, LocalDate releaseDate, 
-								Developer developer, Publisher publisher, Collection<Genre> genres) throws Exception;
+								long developerId, long publisherId, Long[] genreIds) throws Exception;
 }
