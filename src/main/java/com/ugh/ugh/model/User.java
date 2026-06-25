@@ -70,4 +70,10 @@ public class User implements UserDetails {
 		setEmail(email);
 		setPassword(password);
 	}
+	
+	// public User(String username, String password) {
+	// 	setUsername(username);
+	// 	setEmail(null);
+	// 	setPassword(password);
+	// }
 }
