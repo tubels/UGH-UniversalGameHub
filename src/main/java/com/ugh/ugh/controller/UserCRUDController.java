@@ -79,7 +79,7 @@ public class UserCRUDController {
         }
 
         try {
-            userService.create(user.getUsername(), user.getEmail());
+            userService.create(user.getUsername(), user.getEmail(), user.getPassword());
 
             return "redirect:/user/crud/all";
         } catch (Exception e) {
@@ -106,7 +106,7 @@ public class UserCRUDController {
             BindingResult result, Model model) {
         if (result.hasErrors()) {
             try {
-            	model.addAttribute("id", id);
+                model.addAttribute("id", id);
                 return "update-user";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
