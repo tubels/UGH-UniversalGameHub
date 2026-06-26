@@ -1,8 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <a th:href="@{/}">Index</a>
+    </head>
+    <body>
+        <h1> Sistēma ir radusies kļūda: </h1>
+        <p th:text="${package}"></p>
 
-<body>
-<h1> Sistēma ir radusies kļūda: </h1>	
-<p th:text="${package}"></p>	
-	
-</body>
+    </body>
 </html>
