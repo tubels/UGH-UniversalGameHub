@@ -23,14 +23,14 @@ import jakarta.validation.Valid;
 @Controller
 @RequestMapping("/game/crud")
 public class GameCRUDController {
-	
-	@Autowired 
+
+	@Autowired
 	private IDeveloperRepo devRepo;
 	@Autowired
 	private IPublisherRepo publRepo;
 	@Autowired
 	private IGenreRepo genreRepo;
-	
+
 	private final IGameCRUDService gameService;
 
 	GameCRUDController(IGameCRUDService gameService) {
@@ -82,13 +82,14 @@ public class GameCRUDController {
 
 	@PostMapping("/create")
 	public String postControllerCreateNewGame(@Valid Game game, BindingResult result,
-								@RequestParam long developerId, @RequestParam long publisherId, @RequestParam(required = false) Long[] genreIds, Model model) {
-		
+			@RequestParam long developerId, @RequestParam long publisherId,
+			@RequestParam(required = false) Long[] genreIds, Model model) {
+
 		if (result.hasErrors()) {
 			loadDropdowns(model);
 			return "create-game";
 		}
-		
+
 		try {
 			gameService.create(game.getTitle(), game.getPrice(), game.getDescription(), game.getReleaseDate(),
 					developerId, publisherId, genreIds);
@@ -114,9 +115,11 @@ public class GameCRUDController {
 	}
 
 	@PostMapping("/update/{id}")
-	public String postControllerUpdateGameById(@PathVariable(name = "id") long id, @Valid Game game, BindingResult result,
-			 @RequestParam long developerId, @RequestParam long publisherId, @RequestParam(required=false) Long[] genreIds, Model model) {
-		
+	public String postControllerUpdateGameById(@PathVariable(name = "id") long id, @Valid Game game,
+			BindingResult result,
+			@RequestParam long developerId, @RequestParam long publisherId,
+			@RequestParam(required = false) Long[] genreIds, Model model) {
+
 		if (result.hasErrors()) {
 			try {
 				model.addAttribute("id", id);
@@ -148,7 +151,7 @@ public class GameCRUDController {
 			return "error-page";
 		}
 	}
-	
+
 	private void loadDropdowns(Model model) {
 		model.addAttribute("developers", devRepo.findAll());
 		model.addAttribute("publishers", publRepo.findAll());
