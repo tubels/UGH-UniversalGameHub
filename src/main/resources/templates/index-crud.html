@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <link th:href="@{/css/mystyle.css}" rel="stylesheet">
+    </head>
+    <body>
+        <h1><img class="logo" th:src="@{/images/crud-logo.png}"
+                th:alt="'Crud'"></h1>
+        <ul>
+            <li><a th:href="@{/developer/crud/all}">Developer</a></li>
+            <li><a th:href="@{/game/crud/all}">Game</a></li>
+            <li><a th:href="@{/genre/crud/all}">Genre</a></li>
+            <li><a th:href="@{/publisher/crud/all}">Publisher</a></li>
+            <li><a th:href="@{/review/crud/all}">Review</a></li>
+            <li><a th:href="@{/user/crud/all}">User</a></li>
+            <li><a th:href="@{/usergame/crud/all}">UserGame</a></li>
+        </ul>
+    </body>
+</html>
