@@ -1,19 +1,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	
-<body>
-	<h1>All User Games</h1>
+
+	<body>
+		<h1>All User Games</h1>
 		<table border="1">
 			<tr>
 				<th>ID</th>
 				<th>Game Status</th>
 				<th>User</th>
 				<th>Game</th>
+				<th th:colspan="2">Actions</th>
 			</tr>
 			<tr th:each="usergame :${package}">
 				<td th:text="${usergame.userGameId}"></td>
 				<td th:text="${usergame.gameStatus}"></td>
 				<td th:text="${usergame.user.username}"></td>
 				<td th:text="${usergame.game.title}"></td>
+				<td>
+					<form method="get"
+						th:action="@{/usergame/crud/update/{id}(id=${usergame.userGameId})}">
+						<button type="submit" th:action>
+							Update
+						</button>
+					</form>
+				</td>
+				<td><form method="get"
+						th:action="@{/usergame/crud/delete/{id}(id=${usergame.userGameId})}">
+						<button type="submit"
+							th:onclick="return confirm('Are you sure you want to delete this entry?')">
+							Delete
+						</button>
+					</form>
+				</td>
 			</tr>
 		</table>
 	</body>

@@ -1,16 +1,38 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	
-<body>
-	<h1>All Publishers</h1>
-	<table border="1">
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-		</tr>
-		<tr th:each="publ : ${package}">
-			<td th:text="${publ.pubId}"></td>
-			<td th:text="${publ.name}"></td>
-		</tr>
-	</table>
-</body>
-</html>			
+	<head>
+		<link th:href="@{/css/mystyle.css}" rel="stylesheet">
+	</head>
+	<body>
+		<h1>All Publishers</h1>
+		<table border="1">
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th th:colspan="2">Actions</th>
+			</tr>
+			<tr th:each="publ : ${package}">
+				<td th:text="${publ.pubId}"></td>
+				<td th:text="${publ.name}"></td>
+				<td>
+					<form method="get"
+						th:action="@{/publisher/crud/update/{id}(id=${publ.pubId})}">
+						<button type="submit" th:action>
+							Update
+						</button>
+					</form>
+				</td>
+				<td>
+					<form method="get"
+						th:action="@{/genre/crud/delete/{id}(id=${publ.pubId})}">
+
+						<button type="submit"
+							th:onclick="return confirm('Are you sure you want to delete this entry?')">
+							Delete
+						</button>
+
+					</form>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

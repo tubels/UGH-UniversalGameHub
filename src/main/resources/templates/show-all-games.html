@@ -12,6 +12,7 @@
 				<th>Developer</th>
 				<th>Publisher</th>
 				<th>Genres</th>
+				<th th:colspan="2">Actions</th>
 			</tr>
 			<tr th:each="game :${package}">
 				<td th:text="${game.gameId}"></td>
@@ -25,6 +26,22 @@
 					<span th:each="genre : ${game.genres}">
 						<span th:text="${genre.name}"></span>
 					</span>
+				</td>
+				<td>
+					<form method="get"
+						th:action="@{/game/crud/update/{id}(id=${game.gameId})}">
+						<button type="submit" th:action>
+							Update
+						</button>
+					</form>
+				</td>
+				<td><form method="get"
+						th:action="@{/game/crud/delete/{id}(id=${game.gameId})}">
+						<button type="submit"
+							th:onclick="return confirm('Are you sure you want to delete this entry?')">
+							Delete
+						</button>
+					</form>
 				</td>
 			</tr>
 		</table>

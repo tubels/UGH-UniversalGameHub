@@ -1,16 +1,33 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	
-<body>
-	<h1>All Developers</h1>
-	<table border="1">
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-		</tr>
-		<tr th:each="dev : ${package}">
-			<td th:text="${dev.devId}"></td>
-			<td th:text="${dev.name}"></td>
-		</tr>
-	</table>
-</body>
-</html>			
+
+	<body>
+		<h1>All Developers</h1>
+		<table border="1">
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th th:colspan="2">Actions</th>
+			</tr>
+			<tr th:each="dev : ${package}">
+				<td th:text="${dev.devId}"></td>
+				<td th:text="${dev.name}"></td>
+				<td>
+					<form method="get"
+						th:action="@{/developer/crud/update/{id}(id=${dev.devId})}">
+						<button type="submit" th:action>
+							Update
+						</button>
+					</form>
+				</td>
+				<td><form method="get"
+						th:action="@{/developer/crud/delete/{id}(id=${dev.devId})}">
+						<button type="submit"
+							th:onclick="return confirm('Are you sure you want to delete this entry?')">
+							Delete
+						</button>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

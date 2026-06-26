@@ -1,17 +1,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	
-<body>
-	<h1>All Users</h1>
+
+	<body>
+		<h1>All Users</h1>
 		<table border="1">
 			<tr>
 				<th>ID</th>
 				<th>Username</th>
 				<th>Email</th>
+				<th th:colspan="2">Actions</th>
 			</tr>
 			<tr th:each="user :${package}">
 				<td th:text="${user.userId}"></td>
 				<td th:text="${user.username}"></td>
 				<td th:text="${user.email}"></td>
+				<td>
+					<form method="get"
+						th:action="@{/user/crud/update/{id}(id=${user.userId})}">
+						<button type="submit" th:action>
+							Update
+						</button>
+					</form>
+				</td>
+				<td><form method="get"
+						th:action="@{/user/crud/delete/{id}(id=${user.userId})}">
+						<button type="submit"
+							th:onclick="return confirm('Are you sure you want to delete this entry?')">
+							Delete
+						</button>
+					</form>
+				</td>
 			</tr>
 		</table>
 	</body>
