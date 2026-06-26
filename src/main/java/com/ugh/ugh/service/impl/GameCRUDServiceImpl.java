@@ -117,9 +117,9 @@ public class GameCRUDServiceImpl implements IGameCRUDService {
 		if (gameFromDB.getPrice() != price) gameFromDB.setPrice(price);
 		if (!gameFromDB.getDescription().equals(description)) gameFromDB.setDescription(description);
 		if (!gameFromDB.getReleaseDate().equals(releaseDate)) gameFromDB.setReleaseDate(releaseDate);
-		if (!gameFromDB.getPublisher().equals(publisher)) gameFromDB.setPublisher(publisher);
-		if (!gameFromDB.getDeveloper().equals(developer)) gameFromDB.setDeveloper(developer);
-		if (!gameFromDB.getGenres().equals(genreCollection)) gameFromDB.setGenres(genreCollection);
+		if ((gameFromDB.getPublisher() == null) || !gameFromDB.getPublisher().equals(publisher)) gameFromDB.setPublisher(publisher);
+		if ((gameFromDB.getDeveloper() == null) || !gameFromDB.getDeveloper().equals(developer)) gameFromDB.setDeveloper(developer);
+		if ((gameFromDB.getGenres() == null) || !gameFromDB.getGenres().equals(genreCollection)) gameFromDB.setGenres(genreCollection);
 	
 		gameRepo.save(gameFromDB);
 	}
