@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ugh.ugh.enums.GameStatus;
@@ -12,15 +11,11 @@ import com.ugh.ugh.model.Game;
 import com.ugh.ugh.model.Review;
 import com.ugh.ugh.model.User;
 import com.ugh.ugh.model.UserGame;
-import com.ugh.ugh.repo.IDeveloperRepo;
 import com.ugh.ugh.repo.IGameRepo;
-import com.ugh.ugh.repo.IGenreRepo;
-import com.ugh.ugh.repo.IPublisherRepo;
 import com.ugh.ugh.repo.IReviewRepo;
 import com.ugh.ugh.repo.IUserGameRepo;
 import com.ugh.ugh.service.IFilterService;
 import com.ugh.ugh.service.IUserCRUDService;
-import com.ugh.ugh.service.IUsergameCRUDService;
 
 @Service
 public class FilterServiceImpl implements IFilterService {

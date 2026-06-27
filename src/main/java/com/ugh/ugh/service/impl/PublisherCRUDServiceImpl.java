@@ -3,7 +3,6 @@ package com.ugh.ugh.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ugh.ugh.model.Game;
@@ -15,10 +14,13 @@ import com.ugh.ugh.service.IPublisherCRUDService;
 @Service
 public class PublisherCRUDServiceImpl implements IPublisherCRUDService {
 
-	@Autowired
-	private IPublisherRepo pubRepo;
-	@Autowired
-	private IGameRepo gameRepo;
+	private final IPublisherRepo pubRepo;
+	private final IGameRepo gameRepo;
+
+	PublisherCRUDServiceImpl(IPublisherRepo pubRepo, IGameRepo gameRepo) {
+		this.pubRepo = pubRepo;
+		this.gameRepo = gameRepo;
+	}
 
 	@Override
 	public void create(String name) throws Exception {

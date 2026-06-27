@@ -2,7 +2,6 @@ package com.ugh.ugh.controller;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,17 +23,17 @@ import jakarta.validation.Valid;
 @RequestMapping("/game/crud")
 public class GameCRUDController {
 
-	@Autowired
-	private IDeveloperRepo devRepo;
-	@Autowired
-	private IPublisherRepo publRepo;
-	@Autowired
-	private IGenreRepo genreRepo;
-
+	private final IDeveloperRepo devRepo;
+	private final IPublisherRepo publRepo;
+	private final IGenreRepo genreRepo;
 	private final IGameCRUDService gameService;
 
-	GameCRUDController(IGameCRUDService gameService) {
+	GameCRUDController(IGameCRUDService gameService, IDeveloperRepo devRepo, IPublisherRepo publRepo,
+			IGenreRepo genreRepo) {
 		this.gameService = gameService;
+		this.devRepo = devRepo;
+		this.publRepo = publRepo;
+		this.genreRepo = genreRepo;
 	}
 
 	@GetMapping("/all") // localhost:8080/game/crud/all

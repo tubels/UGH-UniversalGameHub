@@ -2,7 +2,6 @@ package com.ugh.ugh.controller;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,15 +22,14 @@ import jakarta.validation.Valid;
 @RequestMapping("/review/crud")
 public class ReviewCRUDController {
 
-	@Autowired
-	private IUserRepo userRepo;
-	@Autowired
-	private IGameRepo gameRepo;
-	
+    private final IUserRepo userRepo;
+    private final IGameRepo gameRepo;
     private final IReviewCRUDService reviewService;
 
-    ReviewCRUDController(IReviewCRUDService reviewService) {
+    ReviewCRUDController(IReviewCRUDService reviewService, IUserRepo userRepo, IGameRepo gameRepo) {
         this.reviewService = reviewService;
+        this.userRepo = userRepo;
+        this.gameRepo = gameRepo;
     }
 
     @GetMapping("/all") // localhost:8080/review/crud/all
@@ -81,10 +79,10 @@ public class ReviewCRUDController {
     }
 
     @PostMapping("/create")
-    public String postControllerCreateNewReview(@Valid Review review, BindingResult result, 
-    							@RequestParam long userId, @RequestParam long gameId, Model model) {
+    public String postControllerCreateNewReview(@Valid Review review, BindingResult result,
+            @RequestParam long userId, @RequestParam long gameId, Model model) {
         if (result.hasErrors()) {
-        	loadDropDowns(model);
+            loadDropDowns(model);
             return "create-review";
         }
         try {
@@ -117,8 +115,8 @@ public class ReviewCRUDController {
             BindingResult result, @RequestParam long userId, @RequestParam long gameId, Model model) {
         if (result.hasErrors()) {
             try {
-            	model.addAttribute("id", id);
-            	loadDropDowns(model);
+                model.addAttribute("id", id);
+                loadDropDowns(model);
                 return "update-review";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
@@ -147,9 +145,9 @@ public class ReviewCRUDController {
             return "error-page";
         }
     }
-    
+
     private void loadDropDowns(Model model) {
-    	model.addAttribute("users", userRepo.findAll());
-    	model.addAttribute("games", gameRepo.findAll());
+        model.addAttribute("users", userRepo.findAll());
+        model.addAttribute("games", gameRepo.findAll());
     }
 }
