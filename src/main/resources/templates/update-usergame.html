@@ -1,52 +1,54 @@
 <html xmlns:th="http://www.thymeleaf.org">
-	
-<body>
-	<h1>Update User Game</h1>
-	<form method="post"
-		th:object="${userGame}"
-		th:action="@{/usergame/crud/update/__${id}__}">
-		
-		<table>
-			<tr>
-				<td>Game Status:</td>
-				<td>
-					<select th:field="*{gameStatus}">
-						<option th:each="status : ${statuses}"
+	<head>
+		<link th:href="@{/css/mystyle.css}" rel="stylesheet">
+		<a th:href="@{/usergame/crud/all}">Back to all page</a>
+	</head>
+	<body>
+		<h1>Update User Game</h1>
+		<form method="post"
+			th:object="${userGame}"
+			th:action="@{/usergame/crud/update/__${id}__}">
+
+			<table>
+				<tr>
+					<td>Game Status:</td>
+					<td>
+						<select th:field="*{gameStatus}">
+							<option th:each="status : ${statuses}"
 								th:value="${status}"
 								th:text="${status}">
-						</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>User:</td>
-				<td>
-					<select name="userId">
-						<option th:each="user : ${users}"
+							</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>User:</td>
+					<td>
+						<select name="userId">
+							<option th:each="user : ${users}"
 								th:value="${user.userId}"
 								th:text="${user.username}"
 								th:selected="${userGame.user != null and userGame.user.userId == user.userId}">
-						</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>Game:</td>
-				<td>
-					<select name="gameId">
-						<option th:each="game : ${games}"
+							</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Game:</td>
+					<td>
+						<select name="gameId">
+							<option th:each="game : ${games}"
 								th:value="${game.gameId}"
 								th:text="${game.title}"
 								th:selected="${userGame.game != null and userGame.game.gameId == game.gameId}">
-						</option>
-					</select>
-				</td>
-			</tr>
-		</table>
-	<button type="submit">
+							</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<button type="submit">
 				Save
-	</button>
-	</form>	
-</body>
+			</button>
+		</form>
+	</body>
 </html>
-					

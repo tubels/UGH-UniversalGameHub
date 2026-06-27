@@ -4,6 +4,22 @@ img.logo {
     height: auto;
 }
 
+ul {
+    background-color: white;
+    width: 10%;
+    background-color: pink;
+}
+
 li {
     size: 100px;
+    border: 1px solid;
+    background-color: white;
+}
+
+html {
+    background-color: pink;
+}
+
+table {
+    background-color: white;
 }

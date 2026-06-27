@@ -1,13 +1,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
-
+	<head>
+		<link th:href="@{/css/mystyle.css}" rel="stylesheet">
+		<a th:href="@{/crud}">Back to CRUD page</a>
+	</head>
 	<body>
 		<h1>All Users</h1>
-		<div>
-			<form method="post" th:action="@{/filter/{keyword}}">
-				<input type="text" name="keyword">
-				<button type="submit">Filter</button>
-			</form>
-		</div>
 		<table border="1">
 			<tr>
 				<th>ID</th>
