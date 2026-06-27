@@ -105,7 +105,13 @@ public class UghApplication {
 						"$2a$12$ULY2vzxrX4/b7SIvlq5RE.eA6N2Tn.VfHpGYrhYlHHRN6nfR.Hn6y");
 				User user2 = new User("Zanis Antons15", "ZanAnt@gmail.com",
 						"$2a$12$ULY2vzxrX4/b7SIvlq5RE.eA6N2Tn.VfHpGYrhYlHHRN6nfR.Hn6y");
-				userRepo.saveAll(Arrays.asList(admin, user1, user2));
+				User user3 = new User("JohnisBonis", "Johnis@gmail.com",
+						"$2a$12$ULY2vzxrX4/b7SIvlq5RE.eA6N2Tn.VfHpGYrhYlHHRN6nfR.Hn6y");
+				User user4 = new User("John1", "john1@gmail.com",
+						"$2a$12$ULY2vzxrX4/b7SIvlq5RE.eA6N2Tn.VfHpGYrhYlHHRN6nfR.Hn6y");
+				User user5 = new User("John2", "john2@gmail.com",
+						"$2a$12$ULY2vzxrX4/b7SIvlq5RE.eA6N2Tn.VfHpGYrhYlHHRN6nfR.Hn6y");
+				userRepo.saveAll(Arrays.asList(admin, user1, user2, user3, user4, user5));
 
 				// ================================= REVIEW
 				// =====================================
