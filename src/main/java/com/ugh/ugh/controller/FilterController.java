@@ -26,7 +26,7 @@ public class FilterController {
     }
 
     @PostMapping("/game")
-    public String getGamesByKeyword(@RequestParam(name = "keyword") String keyword, Model model) {
+    public String getGamesByKeyword(@RequestParam(name = "keyword", required = false) String keyword, Model model) {
         try {
             model.addAttribute("package", filterService.filterGamesByKeyword(keyword));
             return "show-all-games";
