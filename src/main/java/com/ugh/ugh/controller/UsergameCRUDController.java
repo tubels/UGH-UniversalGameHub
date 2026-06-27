@@ -24,11 +24,11 @@ import jakarta.validation.Valid;
 @RequestMapping("/usergame/crud")
 public class UsergameCRUDController {
 
-	@Autowired
-	private IUserRepo userRepo;
-	@Autowired
-	private IGameRepo gameRepo;
-	
+    @Autowired
+    private IUserRepo userRepo;
+    @Autowired
+    private IGameRepo gameRepo;
+
     private final IUsergameCRUDService userGameService;
 
     UsergameCRUDController(IUsergameCRUDService userGameService) {
@@ -40,6 +40,7 @@ public class UsergameCRUDController {
 
         try {
             ArrayList<UserGame> allUserGames = userGameService.retrieveAll();
+            loadDropdowns(model);
             model.addAttribute("package", allUserGames);
             return "show-all-usergame";
 
@@ -83,13 +84,13 @@ public class UsergameCRUDController {
 
     @PostMapping("/create")
     public String postControllerCreateNewUserGame(@Valid UserGame userGame, BindingResult result,
-    								@RequestParam long userId, @RequestParam long gameId, Model model) {
+            @RequestParam long userId, @RequestParam long gameId, Model model) {
 
         if (result.hasErrors()) {
-        	loadDropdowns(model);
+            loadDropdowns(model);
             return "create-usergame";
         }
-        
+
         try {
             userGameService.create(userGame.getGameStatus(), userId, gameId);
 
@@ -119,8 +120,8 @@ public class UsergameCRUDController {
             BindingResult result, @RequestParam long userId, @RequestParam long gameId, Model model) {
         if (result.hasErrors()) {
             try {
-            	model.addAttribute("id", id);
-            	loadDropdowns(model);
+                model.addAttribute("id", id);
+                loadDropdowns(model);
                 return "update-usergame";
             } catch (Exception e) {
                 model.addAttribute("package", e.getMessage());
@@ -149,10 +150,10 @@ public class UsergameCRUDController {
             return "error-page";
         }
     }
-    
+
     private void loadDropdowns(Model model) {
-		model.addAttribute("users", userRepo.findAll());
-		model.addAttribute("games", gameRepo.findAll());
-		model.addAttribute("statuses", GameStatus.values());
-	}
+        model.addAttribute("users", userRepo.findAll());
+        model.addAttribute("games", gameRepo.findAll());
+        model.addAttribute("statuses", GameStatus.values());
+    }
 }

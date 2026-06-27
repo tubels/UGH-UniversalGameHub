@@ -3,6 +3,7 @@
 	<body>
 		<h1>All User Games</h1>
 		<div>
+			<label>Filter by Game Status</label>
 			<form method="get" th:action="@{/filter/gamestatus}">
 				<select name="status">
 					<option th:value="null" th:text="'None'"></option>
@@ -14,6 +15,20 @@
 				<button type="submit">Filter</button>
 			</form>
 		</div>
+		<div>
+			<label>Filter by User</label>
+			<form method="get" th:action="@{/filter/usergames}">
+				<select name="id">
+					<option th:value="-1" th:text="'None'"></option>
+					<option th:each="user : ${users}"
+						th:value="${user.userId}"
+						th:text="${user.username}">
+					</option>
+				</select>
+				<button type="submit">Filter</button>
+			</form>
+		</div>
+
 		<table border="1">
 			<tr>
 				<th>ID</th>

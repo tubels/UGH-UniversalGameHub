@@ -3,6 +3,19 @@
 	<body>
 		<h1>All Reviews</h1>
 		<table border="1">
+			<div>
+				<label>Filter by Rating</label>
+				<form method="get" th:action="@{/filter/rating}">
+					<select name="rating">
+						<option th:value="-1" th:text="'None'"></option>
+						<option th:each="number : ${#numbers.sequence(1, 5)}"
+							th:value="${number}"
+							th:text="${number}">
+						</option>
+					</select>
+					<button type="submit">Filter</button>
+				</form>
+			</div>
 			<tr>
 				<th>ID</th>
 				<th>Title</th>
@@ -22,7 +35,7 @@
 				<td>
 					<form method="get"
 						th:action="@{/review/crud/update/{id}(id=${rev.reviewId})}">
-						<button type="submit" th:action>
+						<button type="submit">
 							Update
 						</button>
 					</form>
