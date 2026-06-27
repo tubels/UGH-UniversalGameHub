@@ -2,6 +2,18 @@
 
 	<body>
 		<h1>All User Games</h1>
+		<div>
+			<form method="get" th:action="@{/filter/gamestatus}">
+				<select name="status">
+					<option th:value="null" th:text="'None'"></option>
+					<option th:each="status : ${T(com.ugh.ugh.enums.GameStatus).values()}"
+						th:value="${status}"
+						th:text="${status}">
+					</option>
+				</select>
+				<button type="submit">Filter</button>
+			</form>
+		</div>
 		<table border="1">
 			<tr>
 				<th>ID</th>
@@ -18,7 +30,7 @@
 				<td>
 					<form method="get"
 						th:action="@{/usergame/crud/update/{id}(id=${usergame.userGameId})}">
-						<button type="submit" th:action>
+						<button type="submit">
 							Update
 						</button>
 					</form>

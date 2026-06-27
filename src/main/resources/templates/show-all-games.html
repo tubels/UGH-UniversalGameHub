@@ -2,6 +2,22 @@
 
 	<body>
 		<h1>All Games</h1>
+		<div>
+			<label>Filter by keyword</label>
+			<form method="post" th:action="@{/filter/game}">
+				<input type="text" name="keyword">
+				<button type="submit">Filter</button>
+			</form>
+		</div>
+		<!-- TODO -->
+		<div>
+			<label>Filter by start and end date</label>
+			<form method="get" th:action="@{/filter/gamedate}">
+				<input type="date" name="startDate" min="1990-01-01" max="2099-12-31">
+				<input type="date" name="endDate" min="1990-01-01" max="2099-12-31">
+				<button type="submit">Filter</button>
+			</form>
+		</div>
 		<table border="1">
 			<tr>
 				<th>ID</th>
@@ -30,7 +46,7 @@
 				<td>
 					<form method="get"
 						th:action="@{/game/crud/update/{id}(id=${game.gameId})}">
-						<button type="submit" th:action>
+						<button type="submit">
 							Update
 						</button>
 					</form>
